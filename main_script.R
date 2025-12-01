@@ -1,5 +1,6 @@
 library(tidyverse)
-install.packages("tidyverse", type="source")
+library(corrplot)
+install.packages("corrplot")
 players_data <- read.csv("Players_Score.csv")
 
 # Check the original dataset
@@ -22,3 +23,44 @@ players_clean <- players_data %>%
 cat("=== CLEANED DATASET ===\n")
 cat("Rows after cleaning:", nrow(players_clean), "\n")
 cat("Rows removed:", nrow(players_data) - nrow(players_clean), "\n\n")
+
+
+#Correlation analysis
+# Select numeric columns
+numeric_data <- players_clean %>% select_if(is.numeric)
+
+# Pearson (assumes normality)
+cor_pearson <- cor(numeric_data, method = "pearson")
+cor_spearman <- cor(numeric_data, method = "spearman")
+cor_kendall <- cor(numeric_data, method = "kendall")
+
+cat("=== Pearson Correlation ===\n")
+print(cor_pearson)
+
+cat("\n=== Spearman Correlation ===\n")
+print(cor_spearman)
+
+cat("\n=== Kendall Correlation ===\n")
+print(cor_kendall)
+
+# Pearson (normal data)
+cor.test(players_clean$Rating, players_clean$Mins, method = "pearson")
+
+# Spearman (non-normal / ordinal)
+cor.test(players_clean$Rating, players_clean$Mins, method = "spearman")
+
+# Kendall (small samples, many ties)
+cor.test(players_clean$Rating, players_clean$Mins, method = "kendall")
+
+
+
+corrplot(correlation_matrix,
+         method = "color",
+         type = "upper",
+         tl.col = "black",
+         tl.srt = 45,
+         number.cex = 0.7,
+         addCoef.col = "black",
+         diag = FALSE)
+
+

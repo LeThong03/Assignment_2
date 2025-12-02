@@ -22,3 +22,14 @@ players_clean <- players_data %>%
 cat("=== CLEANED DATASET ===\n")
 cat("Rows after cleaning:", nrow(players_clean), "\n")
 cat("Rows removed:", nrow(players_data) - nrow(players_clean), "\n\n")
+
+# Converted Assists and Rating to numeric
+players_clean$Assists <- as.numeric(as.character(players_clean$Assists))
+players_clean$Rating  <- as.numeric(as.character(players_clean$Rating))
+
+# Removed rows with missing values in these columns
+players_clean <- na.omit(players_data[, c("Assists", "Rating")])
+
+# Calculates and output Pearson correlation
+correlation_result <- cor(players_clean$Assists, players_clean$Rating, method = "pearson", use = "complete.obs")
+correlation_result

@@ -33,3 +33,7 @@ players_clean <- na.omit(players_data[, c("Assists", "Rating")])
 # Calculates and output Pearson correlation
 correlation_result <- cor(players_clean$Assists, players_clean$Rating, method = "pearson", use = "complete.obs")
 correlation_result
+
+# Run significance test (gives r and p-value)
+test_result <- cor.test(players_clean$Assists, players_clean$Rating, method = "pearson")
+test_result

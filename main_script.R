@@ -1,4 +1,7 @@
 library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
 install.packages("tidyverse", type="source")
 players_data <- read.csv("Players_Score.csv")
 
@@ -37,3 +40,26 @@ correlation_result
 # Run significance test (gives r and p-value)
 test_result <- cor.test(players_clean$Assists, players_clean$Rating, method = "pearson")
 test_result
+
+# Creates and outputs Pearson correlation matrix
+cor_matrix <- cor(players_clean, method = "pearson", use = "complete.obs")
+
+# Convert matrix into long format for ggplot
+cor_melt <- melt(cor_matrix)
+
+# Save PNG file
+png("correlation_matrix.png", width = 800, height = 600)
+
+ggplot(data = cor_melt, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = round(value, 3)), size = 6, color = "white") +
+  scale_fill_gradient2(low = "red", high = "blue", mid = "white",
+                       midpoint = 0, limit = c(-1, 1),
+                       name = "Pearson r") +
+  labs(title = "Correlation Matrix (Pearson Method)",
+       x = "Variables", y = "Variables") +
+  theme_minimal(base_size = 16)
+
+dev.off()
+
+cat("PNG saved as: correlation_matrix.png\n")

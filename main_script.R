@@ -2,7 +2,6 @@ library(tidyverse)
 library(ggplot2)
 library(reshape2)
 
-install.packages("tidyverse", type="source")
 players_data <- read.csv("Players_Score.csv")
 
 # Check the original dataset
@@ -26,24 +25,25 @@ cat("=== CLEANED DATASET ===\n")
 cat("Rows after cleaning:", nrow(players_clean), "\n")
 cat("Rows removed:", nrow(players_data) - nrow(players_clean), "\n\n")
 
-# Converted Assists and Rating to numeric
+# Convert Assists and Rating to numeric
 players_clean$Assists <- as.numeric(as.character(players_clean$Assists))
 players_clean$Rating  <- as.numeric(as.character(players_clean$Rating))
 
-# Removed rows with missing values in these columns
-players_clean <- na.omit(players_data[, c("Assists", "Rating")])
+# Remove rows with missing values in these columns
+players_clean <- players_clean[, c("Assists", "Rating")] %>%
+  na.omit()
 
-# Calculates and output Pearson correlation
-correlation_result <- cor(players_clean$Assists, players_clean$Rating, method = "pearson", use = "complete.obs")
+# Calculate Pearson correlation
+correlation_result <- cor(players_clean$Assists, players_clean$Rating, 
+                          method = "pearson", use = "complete.obs")
 correlation_result
 
-# Run significance test (gives r and p-value)
-test_result <- cor.test(players_clean$Assists, players_clean$Rating, method = "pearson")
+# Run significance test
+test_result <- cor.test(players_clean$Assists, players_clean$Rating, 
+                        method = "pearson")
 test_result
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-# Creates and outputs Pearson correlation matrix
+# Create Pearson correlation matrix
 cor_matrix <- cor(players_clean, method = "pearson", use = "complete.obs")
 
 # Convert matrix into long format for ggplot

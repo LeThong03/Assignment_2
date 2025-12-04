@@ -1,6 +1,10 @@
 library(tidyverse)
 library(corrplot)
+library(dplyr)
+library(ggplot2)
 install.packages("corrplot")
+install.packages("dplyr")
+install.packages("ggplot2")
 players_data <- read.csv("Players_Score.csv")
 
 # Check the original dataset
@@ -54,13 +58,17 @@ cor.test(players_clean$Rating, players_clean$Mins, method = "kendall")
 
 
 
-corrplot(correlation_matrix,
-         method = "color",
-         type = "upper",
-         tl.col = "black",
-         tl.srt = 45,
-         number.cex = 0.7,
-         addCoef.col = "black",
-         diag = FALSE)
+#Create and save boxplot
+png("boxplot_by_Category.png", width = 800, height = 600)
 
-#check pushig
+# Create the boxplot to display in the Plots pane
+ggplot(players_clean, aes(x = as.factor(Assists), y = Rating)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  labs(title = "Boxplot of Rating by Category",
+       x = "Assists",
+       y = "Rating") +
+  theme_minimal()
+
+print(boxplot)
+
+

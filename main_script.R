@@ -41,6 +41,7 @@ correlation_result
 test_result <- cor.test(players_clean$Assists, players_clean$Rating, method = "pearson")
 test_result
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 # Creates and outputs Pearson correlation matrix
 cor_matrix <- cor(players_clean, method = "pearson", use = "complete.obs")
@@ -64,5 +65,3 @@ ggplot(data = cor_melt, aes(x = Var1, y = Var2, fill = value)) +
 dev.off()
 
 cat("PNG saved as: correlation_matrix.png\n")
-=======
->>>>>>> 4ffc5ebb447781f099154e071ee90296a65d0d6a

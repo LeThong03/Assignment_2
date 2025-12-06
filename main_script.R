@@ -83,8 +83,9 @@ cat("R-squared:", round(r_value^2, 3), "\n")
 cat("P-value:", format(p_value, scientific = TRUE), "\n")
 cat("95% Confidence Interval: [", round(confidence_interval[1], 3), ",", 
     round(confidence_interval[2], 3), "]\n")
-cat("Sample size (n):", nrow(analysis_data), "\n")
+cat("Sample size (n):", nrow(analysis_data), "\n") 
 
+#JACKSON 
 # =====================================================
 # SAFE NUMERIC CONVERSION
 # Converts only character columns containing numbers

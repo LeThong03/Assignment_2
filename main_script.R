@@ -84,3 +84,50 @@ cat("P-value:", format(p_value, scientific = TRUE), "\n")
 cat("95% Confidence Interval: [", round(confidence_interval[1], 3), ",", 
     round(confidence_interval[2], 3), "]\n")
 cat("Sample size (n):", nrow(analysis_data), "\n")
+
+# =====================================================
+# SAFE NUMERIC CONVERSION
+# Converts only character columns containing numbers
+# =====================================================
+
+clean_numeric <- function(x) {
+  x <- gsub("[^0-9.-]", "", x)  # keep digits, minus, dot
+  suppressWarnings(as.numeric(x))
+}
+
+players_clean <- players_clean %>%
+  mutate(across(
+    .cols = where(~ is.character(.) && mean(grepl("[0-9]", .)) > 0.5),
+    .fns = clean_numeric
+  ))
+
+
+cat("=== STRUCTURE AFTER CLEANING ===\n")
+str(players_clean)
+
+# =====================================================
+# SCATTER PLOT: ASSISTS vs RATING
+# =====================================================
+scatter_plot <- ggplot(players_clean, aes(x = Assists, y = Rating)) +
+  geom_point(color = "blue", size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Scatter Plot: Assists vs Player Rating",
+    x = "Number of Assists",
+    y = "Player Rating"
+  ) +
+  theme_minimal()
+
+# Show in RStudio Plots panel
+print(scatter_plot)
+
+# Save plot as image
+ggsave(
+  filename = "scatter_plot_assists_vs_rating.png",
+  plot = scatter_plot,
+  width = 10,
+  height = 7,
+  dpi = 150
+)
+
+cat("\nPlot saved as: scatter_plot_assists_vs_rating.png\n")

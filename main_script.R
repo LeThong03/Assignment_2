@@ -118,7 +118,7 @@ scatter_plot <- ggplot(players_clean, aes(x = Assists, y = Rating)) +
   ) +
   theme_minimal()
 
-# Show in RStudio Plots panel
+# Print result
 print(scatter_plot)
 
 # Save plot as image
@@ -131,3 +131,33 @@ ggsave(
 )
 
 cat("\nPlot saved as: scatter_plot_assists_vs_rating.png\n")
+
+
+# Select only numeric columns for correlation
+numeric_data <- players_clean %>% 
+  select(where(is.numeric))
+
+# Create correlation matrix
+cor_matrix <- cor(numeric_data, use = "complete.obs")
+
+# Convert to long format for ggplot
+cor_melt <- reshape2::melt(cor_matrix)
+
+# Save PNG file
+png("correlation_matrix.png", width = 800, height = 600)
+
+ggplot(cor_melt, aes(Var1, Var2, fill = value)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = round(value, 2)), color = "white", size = 5) +
+  scale_fill_gradient2(
+    low = "red", high = "blue", mid = "white",
+    midpoint = 0, limit = c(-1, 1), name = "Pearson r"
+  ) +
+  labs(
+    title = "Correlation Matrix (Pearson Method)",
+    x = "Variables", y = "Variables"
+  ) +
+  theme_minimal(base_size = 14)
+
+dev.off()
+cat("PNG saved as: correlation_matrix.png\n")

@@ -118,10 +118,8 @@ scatter_plot <- ggplot(players_clean, aes(x = Assists, y = Rating)) +
   ) +
   theme_minimal()
 
-
 # Show in RStudio Plots panel
 # Print result
-
 print(scatter_plot)
 
 # Save plot as image
@@ -136,9 +134,6 @@ ggsave(
 cat("\nPlot saved as: scatter_plot_assists_vs_rating.png\n")
 
 
-#Create and save boxplot
-png("boxplot_by_Category.png", width = 613, height = 360)
-
 # Create the boxplot to display in the Plots pane
 ggplot(players_clean, aes(x = as.factor(Assists), y = Rating)) +
   geom_boxplot(fill = "lightblue", color = "darkblue") +
@@ -150,9 +145,8 @@ ggplot(players_clean, aes(x = as.factor(Assists), y = Rating)) +
 # Show in RStudio Plots panel
 print(boxplot)
 
-dev.off()
-
-
+#Create and save boxplot
+png("boxplot_by_Category.png", width = 613, height = 360)
 # Select only numeric columns for correlation
 numeric_data <- players_clean %>% 
   select(where(is.numeric))

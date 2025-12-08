@@ -161,3 +161,19 @@ ggplot(cor_melt, aes(Var1, Var2, fill = value)) +
 
 dev.off()
 cat("PNG saved as: correlation_matrix.png\n")
+
+#Create and save boxplot
+#Oluchukwu
+# Create the boxplot to display in the Plots pane
+ggplot(players_clean, aes(x = as.factor(Assists), y = Rating)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  labs(title = "Boxplot of Rating and Assists of players in World Cup 2018",
+       x = "Assists",
+       y = "Rating") +
+  theme_minimal()
+
+print(boxplot)
+
+png("Boxplot of Rating and Assists of players in World Cup 2018", width = 691, height = 411)
+
+

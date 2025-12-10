@@ -108,11 +108,11 @@ str(players_clean)
 # =====================================================
 # SCATTER PLOT: ASSISTS vs RATING
 # =====================================================
-scatter_plot <- ggplot(players_clean, aes(x = Assists, y = Rating)) +
+scatter_plot <- ggplot(analysis_data, aes(x = Assists, y = Rating)) +
   geom_point(color = "blue", size = 3) +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(
-    title = "Scatter Plot: Assists vs Player Rating",
+    title = "Scatter Plot: Assists vs Player Rating in World Cup 2018",
     x = "Number of Assists",
     y = "Player Rating"
   ) +
@@ -165,15 +165,31 @@ cat("PNG saved as: correlation_matrix.png\n")
 #Create and save boxplot
 #Oluchukwu
 # Create the boxplot to display in the Plots pane
-ggplot(players_clean, aes(x = as.factor(Assists), y = Rating)) +
+box_plot <- ggplot(players_clean, aes(x = as.factor(Assists), y = Rating)) +
   geom_boxplot(fill = "lightblue", color = "darkblue") +
-  labs(title = "Boxplot of Rating and Assists of players in World Cup 2018",
+  labs(title = "Boxplot of Rating by Number of Assists in World Cup 2018",
        x = "Assists",
        y = "Rating") +
   theme_minimal()
 
-print(boxplot)
+print(box_plot)
 
-png("Boxplot of Rating and Assists of players in World Cup 2018", width = 691, height = 411)
+png("boxplot_assists_rating.png", width = 691, height = 411)
+print(box_plot)
+dev.off()
+
+#Histogram of assist of players in World cup 2018
+hist_assists <- ggplot(analysis_data, aes(x = Assists)) +
+  geom_histogram(color = "black", fill = "lightblue", bins = 10) +
+  labs(
+    title = "Histogram of Assists in World Cup 2018",
+    x = "Number of Assists",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+print(hist_assists)
+ggsave("histogram_assists.png", plot = hist_assists, width = 8, height = 6)
+
 
 
